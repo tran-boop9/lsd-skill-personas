@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: sans-serif; max-width: 600px; margin: 40px auto; text-align: center; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input, select { display: block; width: 80%; margin: 10px auto; padding: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hidden { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-top: 20px;}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button:hover { background-color: #218838; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>img { max-width: 200px; margin-top: 20px; border-radius: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="intro-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Skills Assessment&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Please enter your details to begin.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p style="font-size: 0.8em; color: #666;"&gt;(Note: Please ensure you are logged into your Roche Google account.)&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="userName" placeholder="Full Name" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="unixId" placeholder="Company UNIX ID" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="userRole" placeholder="Your Role (e.g. Engineer)" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="product" placeholder="Product Supported" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="startQuiz()"&gt;Start Quiz&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="quiz-screen" class="hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Question 1&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;What is the correct command to list files in UNIX?&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;select id="q1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="0"&gt;Select an answer...&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="1"&gt;ls&lt;/option&gt; &lt;option value="0"&gt;list&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="0"&gt;show&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/select&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Question 2&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Which status code means "Not Found"?&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;select id="q2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="0"&gt;Select an answer...&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="0"&gt;200&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="0"&gt;500&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;option value="1"&gt;404&lt;/option&gt; &lt;/select&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="calculateResults()"&gt;Submit &amp; Get Avatar&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="result-screen" class="hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 id="result-title"&gt;&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;img id="avatar-img" src="" alt="Your Avatar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="save-status"&gt;Saving results...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// *** IMPORTANT: PASTE YOUR GOOGLE SCRIPT URL HERE ***</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const googleScriptURL = "https://script.google.com/a/macros/gene.com/s/AKfycby4quPxzKHTI05_RIg1Giyo6wchPDf4Uomuv1N-9LwW3CdNNO0i8tsDIaiJtC1hi6Y_/exec";<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function startQuiz() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(document.getElementById('userName').value === "") {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert("Please enter your name!");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('intro-screen').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('quiz-screen').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function calculateResults() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 1. Calculate Score</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let q1 = parseInt(document.getElementById('q1').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let q2 = parseInt(document.getElementById('q2').value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let totalScore = q1 + q2;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let maxScore = 2;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let percent = (totalScore / maxScore) * 100;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 2. Choose Avatar based on Score (THIS IS THE MODIFIED SECTION)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let avatarFile = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let title = "";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (percent &lt; 50) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Score is less than 50%</p>
+<p class="p1"><span class="Apple-converted-space">        </span>avatarFile = "owl.png";<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>title = "You are a Wise Owl! Keep learning.";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Score is 50% or higher</p>
+<p class="p1"><span class="Apple-converted-space">        </span>avatarFile = "bear.png";<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>title = "You are a Strong Bear! Great job.";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 3. Show Results</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('quiz-screen').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('result-screen').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('result-title').innerText = title;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('avatar-img').src = avatarFile;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 4. Send to Google Sheet</p>
+<p class="p1"><span class="Apple-converted-space">      </span>sendToSheet(totalScore, avatarFile);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function sendToSheet(score, avatarName) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const data = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>name: document.getElementById('userName').value,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>unixId: document.getElementById('unixId').value,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>role: document.getElementById('userRole').value,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>product: document.getElementById('product').value,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>score: score,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>avatar: avatarName</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>fetch(googleScriptURL, {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mode: 'no-cors',<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>headers: { 'Content-Type': 'application/json' },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body: JSON.stringify(data)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}).then(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('save-status').innerText = "Results saved successfully!";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}).catch(err =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>console.error(err);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('save-status').innerText = "Error saving results. Are you logged into your Google account?";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
