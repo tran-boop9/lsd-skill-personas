@@ -28,7 +28,8 @@
     <p>What is the correct command to list files in UNIX?</p>
     <select id="q1">
       <option value="0">Select an answer...</option>
-      <option value="1">ls</option> <option value="0">list</option>
+      <option value="1">ls</option> 
+      <option value="0">list</option>
       <option value="0">show</option>
     </select>
 
@@ -38,7 +39,8 @@
       <option value="0">Select an answer...</option>
       <option value="0">200</option>
       <option value="0">500</option>
-      <option value="1">404</option> </select>
+      <option value="1">404</option> 
+    </select>
 
     <button onclick="calculateResults()">Submit & Get Avatar</button>
   </div>
@@ -50,9 +52,10 @@
   </div>
 
   <script>
-    // *** IMPORTANT: PASTE YOUR GOOGLE SCRIPT URL HERE ***
+    // --- CONFIGURATION ---
     const googleScriptURL = "https://script.google.com/a/macros/gene.com/s/AKfycby4quPxzKHTI05_RIg1Giyo6wchPDf4Uomuv1N-9LwW3CdNNO0i8tsDIaiJtC1hi6Y_/exec"; 
 
+    // --- FUNCTION 1: START THE QUIZ ---
     function startQuiz() {
       if(document.getElementById('userName').value === "") {
         alert("Please enter your name!");
@@ -62,6 +65,7 @@
       document.getElementById('quiz-screen').classList.remove('hidden');
     }
 
+    // --- FUNCTION 2: CALCULATE RESULTS ---
     function calculateResults() {
       // 1. Calculate Score
       let q1 = parseInt(document.getElementById('q1').value);
@@ -89,9 +93,10 @@
       document.getElementById('avatar-img').src = avatarFile;
 
       // 4. Send to Google Sheet
-// *** PASTE YOUR URL BELOW WHERE IT SAYS 'PASTE_HERE' ***
-    const googleScriptURL = "https://script.google.com/a/macros/gene.com/s/AKfycby4quPxzKHTI05_RIg1Giyo6wchPDf4Uomuv1N-9LwW3CdNNO0i8tsDIaiJtC1hi6Y_/exec"; 
+      sendToSheet(totalScore, avatarFile);
+    }
 
+    // --- FUNCTION 3: SEND DATA TO GOOGLE ---
     function sendToSheet(score, avatarName) {
       const data = {
         name: document.getElementById('userName').value,
@@ -105,17 +110,18 @@
       fetch(googleScriptURL, {
         method: 'POST',
         mode: 'no-cors', 
-        credentials: 'include', // <--- THIS IS THE MAGIC KEY FOR ROCHE ACCOUNTS
+        credentials: 'include', // Important for Roche Access
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       }).then(() => {
-        // Because of 'no-cors' and corporate security, we might not get a "success" signal 
-        // back, but we assume it worked if it didn't crash.
         document.getElementById('save-status').innerText = "Results submitted!";
       }).catch(err => {
         console.error(err);
         document.getElementById('save-status').innerText = "Error. Please make sure you are logged into your Roche account.";
       });
     }
+  </script>
+</body>
+</html>
