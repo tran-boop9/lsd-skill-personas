@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <style>
   body { font-family: sans-serif; max-width: 600px; margin: 40px auto; text-align: center; }
-  input, select { display: block; width: 80%; margin: 10px auto; padding: 10px; }
+  /* Style for the new dropdowns to make them look nice */
+  input, select { display: block; width: 80%; margin: 10px auto; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
   .hidden { display: none; }
-  button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-top: 20px;}
+  button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-top: 20px; font-size: 16px; border-radius: 5px;}
   button:hover { background-color: #218838; }
   img { max-width: 200px; margin-top: 20px; border-radius: 10px; }
   p { line-height: 1.5; }
@@ -15,16 +16,28 @@
 <body>
 
 <div id="intro-screen">
-  <h1>Skills Assessment</h1>
+  <h1>Skills Personas</h1>
   <p>Please enter your details to begin.</p>
-  <p style="font-size: 0.8em; color: #666;">(Note: Ensure you are logged into your Roche Google account.)</p>
+  <p style="font-size: 0.8em; color: #666;">(Note: Ensure you are logged into your Genentech Google account.)</p>
   
   <input type="text" id="userName" placeholder="Full Name">
   <input type="text" id="unixId" placeholder="Company UNIX ID">
-  <input type="text" id="userRole" placeholder="Your Role (e.g. Engineer)">
-  <input type="text" id="product" placeholder="Product Supported">
   
-  <button onclick="startQuiz()">Start Quiz</button>
+  <select id="userRole">
+    <option value="" disabled selected>Select your Role...</option>
+    <option value="TAM">TAM</option>
+    <option value="BEM">BEM</option>
+    <option value="FRM">FRM</option>
+  </select>
+  
+  <select id="product">
+    <option value="" disabled selected>Select Product Supported...</option>
+    <option value="Ocrevus Zunovo">Ocrevus Zunovo</option>
+    <option value="Breast">Breast</option>
+    <option value="HEME">HEME</option>
+  </select>
+  
+  <button onclick="startQuiz()">Begin</button>
 </div>
 
 <div id="quiz-screen" class="hidden">
@@ -59,27 +72,37 @@
   // YOUR CONFIGURATION
   var googleScriptURL = "https://script.google.com/a/macros/gene.com/s/AKfycby4quPxzKHTI05_RIg1Giyo6wchPDf4Uomuv1N-9LwW3CdNNO0i8tsDIaiJtC1hi6Y_/exec"; 
 
-  // Function to switch from Intro to Quiz
   function startQuiz() {
-    var nameInput = document.getElementById('userName').value;
-    if(nameInput === "") {
-      alert("Please enter your name!");
+    var name = document.getElementById('userName').value;
+    var role = document.getElementById('userRole').value;
+    var prod = document.getElementById('product').value;
+
+    // Validation: Make sure they filled everything out
+    if(name === "" || role === "" || prod === "") {
+      alert("Please fill in all fields (Name, Role, and Product).");
       return;
     }
-    // Hide intro, show quiz
+    
     document.getElementById('intro-screen').style.display = 'none';
     document.getElementById('quiz-screen').style.display = 'block';
   }
 
-  // Function to calculate score and show avatar
   function calculateResults() {
-    var q1 = parseInt(document.getElementById('q1').value);
-    var q2 = parseInt(document.getElementById('q2').value);
-    var totalScore = q1 + q2;
+    // Get the element itself so we can see the text (e.g. "ls") not just the value ("1")
+    var q1Elem = document.getElementById('q1');
+    var q2Elem = document.getElementById('q2');
+
+    var q1Score = parseInt(q1Elem.value);
+    var q2Score = parseInt(q2Elem.value);
+    
+    // Get the actual text the user saw (to save to the sheet)
+    var q1Text = q1Elem.options[q1Elem.selectedIndex].text;
+    var q2Text = q2Elem.options[q2Elem.selectedIndex].text;
+
+    var totalScore = q1Score + q2Score;
     var maxScore = 2;
     var percent = (totalScore / maxScore) * 100;
 
-    // Avatar Logic
     var avatarFile = "bear.png";
     var title = "You are a Strong Bear!";
 
@@ -88,26 +111,25 @@
       title = "You are a Wise Owl!";
     }
 
-    // Show result screen
     document.getElementById('quiz-screen').style.display = 'none';
     document.getElementById('result-screen').style.display = 'block';
-    
     document.getElementById('result-title').innerText = title;
     document.getElementById('avatar-img').src = avatarFile;
 
-    // Send data to Google
-    sendToSheet(totalScore, avatarFile);
+    // Send extended data to Google
+    sendToSheet(totalScore, avatarFile, q1Text, q2Text);
   }
 
-  // Function to send data to Google Sheet
-  function sendToSheet(score, avatarName) {
+  function sendToSheet(score, avatarName, answer1, answer2) {
     var data = {
       name: document.getElementById('userName').value,
       unixId: document.getElementById('unixId').value,
       role: document.getElementById('userRole').value,
       product: document.getElementById('product').value,
       score: score,
-      avatar: avatarName
+      avatar: avatarName,
+      q1Answer: answer1, // Sending the specific answer
+      q2Answer: answer2  // Sending the specific answer
     };
 
     fetch(googleScriptURL, {
