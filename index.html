@@ -1,127 +1,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; text-align: center; }
-    input, select { display: block; width: 80%; margin: 10px auto; padding: 10px; }
-    .hidden { display: none; }
-    button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-top: 20px;}
-    button:hover { background-color: #218838; }
-    img { max-width: 200px; margin-top: 20px; border-radius: 10px; }
-  </style>
+<meta charset="UTF-8">
+<style>
+  body { font-family: sans-serif; max-width: 600px; margin: 40px auto; text-align: center; }
+  input, select { display: block; width: 80%; margin: 10px auto; padding: 10px; }
+  .hidden { display: none; }
+  button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; margin-top: 20px;}
+  button:hover { background-color: #218838; }
+  img { max-width: 200px; margin-top: 20px; border-radius: 10px; }
+  p { line-height: 1.5; }
+</style>
 </head>
 <body>
 
-  <div id="intro-screen">
-    <h1>Skills Assessment</h1>
-    <p>Please enter your details to begin.</p>
-    <p style="font-size: 0.8em; color: #666;">(Note: Please ensure you are logged into your Roche Google account.)</p>
-    <input type="text" id="userName" placeholder="Full Name" required>
-    <input type="text" id="unixId" placeholder="Company UNIX ID" required>
-    <input type="text" id="userRole" placeholder="Your Role (e.g. Engineer)" required>
-    <input type="text" id="product" placeholder="Product Supported" required>
-    <button onclick="startQuiz()">Start Quiz</button>
-  </div>
+<div id="intro-screen">
+  <h1>Skills Assessment</h1>
+  <p>Please enter your details to begin.</p>
+  <p style="font-size: 0.8em; color: #666;">(Note: Ensure you are logged into your Roche Google account.)</p>
+  
+  <input type="text" id="userName" placeholder="Full Name">
+  <input type="text" id="unixId" placeholder="Company UNIX ID">
+  <input type="text" id="userRole" placeholder="Your Role (e.g. Engineer)">
+  <input type="text" id="product" placeholder="Product Supported">
+  
+  <button onclick="startQuiz()">Start Quiz</button>
+</div>
 
-  <div id="quiz-screen" class="hidden">
-    <h2>Question 1</h2>
-    <p>What is the correct command to list files in UNIX?</p>
-    <select id="q1">
-      <option value="0">Select an answer...</option>
-      <option value="1">ls</option> 
-      <option value="0">list</option>
-      <option value="0">show</option>
-    </select>
+<div id="quiz-screen" class="hidden">
+  <h2>Question 1</h2>
+  <p>What is the correct command to list files in UNIX?</p>
+  <select id="q1">
+    <option value="0">Select an answer...</option>
+    <option value="1">ls</option> 
+    <option value="0">list</option>
+    <option value="0">show</option>
+  </select>
 
-    <h2>Question 2</h2>
-    <p>Which status code means "Not Found"?</p>
-    <select id="q2">
-      <option value="0">Select an answer...</option>
-      <option value="0">200</option>
-      <option value="0">500</option>
-      <option value="1">404</option> 
-    </select>
+  <h2>Question 2</h2>
+  <p>Which status code means "Not Found"?</p>
+  <select id="q2">
+    <option value="0">Select an answer...</option>
+    <option value="0">200</option>
+    <option value="0">500</option>
+    <option value="1">404</option> 
+  </select>
 
-    <button onclick="calculateResults()">Submit & Get Avatar</button>
-  </div>
+  <button onclick="calculateResults()">Submit & Get Avatar</button>
+</div>
 
-  <div id="result-screen" class="hidden">
-    <h2 id="result-title"></h2>
-    <img id="avatar-img" src="" alt="Your Avatar">
-    <p id="save-status">Saving results...</p>
-  </div>
+<div id="result-screen" class="hidden">
+  <h2 id="result-title"></h2>
+  <img id="avatar-img" src="" alt="Your Avatar">
+  <p id="save-status">Saving results...</p>
+</div>
 
-  <script>
-    // --- CONFIGURATION ---
-    const googleScriptURL = "https://script.google.com/a/macros/gene.com/s/AKfycby4quPxzKHTI05_RIg1Giyo6wchPDf4Uomuv1N-9LwW3CdNNO0i8tsDIaiJtC1hi6Y_/exec"; 
+<script>
+  // YOUR CONFIGURATION
+  var googleScriptURL = "https://script.google.com/a/macros/gene.com/s/AKfycby4quPxzKHTI05_RIg1Giyo6wchPDf4Uomuv1N-9LwW3CdNNO0i8tsDIaiJtC1hi6Y_/exec"; 
 
-    // --- FUNCTION 1: START THE QUIZ ---
-    function startQuiz() {
-      if(document.getElementById('userName').value === "") {
-        alert("Please enter your name!");
-        return;
-      }
-      document.getElementById('intro-screen').classList.add('hidden');
-      document.getElementById('quiz-screen').classList.remove('hidden');
+  // Function to switch from Intro to Quiz
+  function startQuiz() {
+    var nameInput = document.getElementById('userName').value;
+    if(nameInput === "") {
+      alert("Please enter your name!");
+      return;
+    }
+    // Hide intro, show quiz
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('quiz-screen').style.display = 'block';
+  }
+
+  // Function to calculate score and show avatar
+  function calculateResults() {
+    var q1 = parseInt(document.getElementById('q1').value);
+    var q2 = parseInt(document.getElementById('q2').value);
+    var totalScore = q1 + q2;
+    var maxScore = 2;
+    var percent = (totalScore / maxScore) * 100;
+
+    // Avatar Logic
+    var avatarFile = "bear.png";
+    var title = "You are a Strong Bear!";
+
+    if (percent < 50) {
+      avatarFile = "owl.png"; 
+      title = "You are a Wise Owl!";
     }
 
-    // --- FUNCTION 2: CALCULATE RESULTS ---
-    function calculateResults() {
-      // 1. Calculate Score
-      let q1 = parseInt(document.getElementById('q1').value);
-      let q2 = parseInt(document.getElementById('q2').value);
-      let totalScore = q1 + q2;
-      let maxScore = 2; 
-      let percent = (totalScore / maxScore) * 100;
+    // Show result screen
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    
+    document.getElementById('result-title').innerText = title;
+    document.getElementById('avatar-img').src = avatarFile;
 
-      // 2. Choose Avatar based on Score
-      let avatarFile = "";
-      let title = "";
+    // Send data to Google
+    sendToSheet(totalScore, avatarFile);
+  }
 
-      if (percent < 50) {
-        avatarFile = "owl.png"; 
-        title = "You are a Wise Owl! Keep learning.";
-      } else {
-        avatarFile = "bear.png"; 
-        title = "You are a Strong Bear! Great job.";
-      }
+  // Function to send data to Google Sheet
+  function sendToSheet(score, avatarName) {
+    var data = {
+      name: document.getElementById('userName').value,
+      unixId: document.getElementById('unixId').value,
+      role: document.getElementById('userRole').value,
+      product: document.getElementById('product').value,
+      score: score,
+      avatar: avatarName
+    };
 
-      // 3. Show Results
-      document.getElementById('quiz-screen').classList.add('hidden');
-      document.getElementById('result-screen').classList.remove('hidden');
-      document.getElementById('result-title').innerText = title;
-      document.getElementById('avatar-img').src = avatarFile;
+    fetch(googleScriptURL, {
+      method: 'POST',
+      mode: 'no-cors', 
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function() {
+      document.getElementById('save-status').innerText = "Results submitted!";
+    }).catch(function(err) {
+      console.error(err);
+      document.getElementById('save-status').innerText = "Error. Check network/login.";
+    });
+  }
+</script>
 
-      // 4. Send to Google Sheet
-      sendToSheet(totalScore, avatarFile);
-    }
-
-    // --- FUNCTION 3: SEND DATA TO GOOGLE ---
-    function sendToSheet(score, avatarName) {
-      const data = {
-        name: document.getElementById('userName').value,
-        unixId: document.getElementById('unixId').value,
-        role: document.getElementById('userRole').value,
-        product: document.getElementById('product').value,
-        score: score,
-        avatar: avatarName
-      };
-
-      fetch(googleScriptURL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        credentials: 'include', // Important for Roche Access
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(() => {
-        document.getElementById('save-status').innerText = "Results submitted!";
-      }).catch(err => {
-        console.error(err);
-        document.getElementById('save-status').innerText = "Error. Please make sure you are logged into your Roche account.";
-      });
-    }
-  </script>
 </body>
 </html>
